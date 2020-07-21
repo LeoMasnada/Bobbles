@@ -12,6 +12,7 @@ const {
 	prefix,
 	token,
 } = require('./config/config.json');
+const { debug } = require('console');
 
 // create a new Discord client and gives it a collection of commands
 const client = new Discord.Client();
@@ -27,6 +28,7 @@ for (const file of commandFiles) {
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
 	client.commands.set(command.name, command);
+	console.log('Loaded ' + command.name);
 }
 
 // Looks for the database file to load and log into
