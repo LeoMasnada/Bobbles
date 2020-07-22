@@ -1,28 +1,5 @@
-// Import the sequelize library
-const Sequelize = require('sequelize');
-
-// Looks for the database file to load and log into
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
-
 // Defines the table for experience like done in index.js
-const Experience = sequelize.define('xp', {
-	user: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	experience: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-
-});
+const Experience = require('./models/Experience');
 
 module.exports = {
 	name: 'xp',

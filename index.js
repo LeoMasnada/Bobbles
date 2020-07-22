@@ -1,9 +1,6 @@
 // Import file reader library
 const fs = require('fs');
 
-// Import the sequelize library
-const Sequelize = require('sequelize');
-
 // require the discord.js module
 const Discord = require('discord.js');
 
@@ -30,36 +27,15 @@ for (const file of commandFiles) {
 	console.log('Loaded ' + command.name);
 }
 
-// Looks for the database file to load and log into
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
-
 // Creates a 'table' with a user as key and an integer value associated to it
-const Experience = sequelize.define('xp', {
-	user: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	experience: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-
-});
-
+const Experience = require('./commands/models/Experience');
+const { debug } = require('console');
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
 client.once('ready', () => {
-	const dt = new Date(Date.now());
-
-	console.log(dt.toUTCString() + ' \nReady !');
+	const str = new Date(Date.now()).toLocaleString('en-GB', { timeZone: 'Europe/Paris' });
+	console.log(`${str} Bot is ready!`);
 	// Loads the existing database or creates it if not existing
 	Experience.sync();
 });
@@ -69,6 +45,8 @@ client.login(token);
 
 // Whenever the bot catches a new message, this code runs
 client.on('message', async message => {
+	if (message.author.bot) return;
+
 	// If the message doesn't start with the prefix, returns to skip treatment
 	if (!message.content.startsWith(prefix)) return;
 
@@ -91,7 +69,10 @@ client.on('message', async message => {
 		console.log(error);
 		message.reply('there was an error while loading that command');
 	}
+});
 
+client.on('message', async message => {
+	if (message.author.bot) return;
 	// Looks if a user already has been given an experience value
 	let user = await Experience.findOne({
 		where: {
@@ -113,4 +94,21 @@ client.on('message', async message => {
 	}
 	// Adds 1 experience point to the user
 	user.increment('experience');
+
+	// Loads the custom reaction table model
+	const CustomReactions = require('./commands/models/CustomReaction');
+
+	// Fetch all reactions stored
+	CustomReactions.findAll().then(
+		cr => {
+			// For each existing entry, tests if the trigger is included in the last seen message
+			cr.forEach(customReact => {
+				// If the message contains a trigger
+				if (message.content.includes(customReact.trigger)) {
+					// Sends out the reaction of the trigger
+					message.channel.send(customReact.response);
+				}
+			});
+		});
+
 });
