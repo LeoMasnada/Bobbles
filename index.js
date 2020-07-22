@@ -12,7 +12,6 @@ const {
 	prefix,
 	token,
 } = require('./config/config.json');
-const { debug } = require('console');
 
 // create a new Discord client and gives it a collection of commands
 const client = new Discord.Client();
