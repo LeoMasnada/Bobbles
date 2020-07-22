@@ -13,6 +13,7 @@ const {
 // create a new Discord client and gives it a collection of commands
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 
 // Loads all commands located in the commands folder looking for files with a js extention
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -24,6 +25,9 @@ for (const file of commandFiles) {
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
 	client.commands.set(command.name, command);
+	command.alias.forEach(a =>{
+		client.aliases.set(a, command);
+	});
 	console.log('Loaded ' + command.name);
 }
 
@@ -54,11 +58,23 @@ client.on('message', async message => {
 	// Removes the 1st part of the args array and stores it as the command name, then shift it to lowercase
 	const commandName = args.shift().toLowerCase();
 
-	// If the command doesn't exist, replies that the command is unknown and skips the rest
-	if (!client.commands.has(commandName)) return message.channel.send('This command doesn\'t exist');
+	// If the command doesn't exist, and no alias exists with the command, replies that the command is unknown and skips the rest
+	if (!client.commands.has(commandName)) {
+		if(!client.aliases.has(commandName)) {
+			return message.channel.send('This command doesn\'t exist');
+		}
+	}
 
-	// Fetch the command file if it exists
-	const command = client.commands.get(commandName);
+	// Creates command holder
+	let command;
+
+	// Fetch the command file if it exists either in the commands or the alias collections
+	if (client.commands.has(commandName)) {
+		command = client.commands.get(commandName);
+	}
+	else {
+		command = client.aliases.get(commandName);
+	}
 
 	// Attempts to run the command and logs any failure
 	try {

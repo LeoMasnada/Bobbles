@@ -5,6 +5,7 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'customreaction',
 	description: '',
+	alias: ['cr'],
 	async execute(message, args) {
 		// Loads or creates the table of custom reaction table
 		CustomReaction.sync();

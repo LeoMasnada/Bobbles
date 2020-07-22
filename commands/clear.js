@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'clear',
 	description: 'Removes X messages from the channel (not counting the command)',
+	alias: ['c'],
 	async execute(message, args) {
 
 		// Removes the clear command message

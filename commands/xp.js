@@ -4,6 +4,7 @@ const Experience = require('./models/Experience');
 module.exports = {
 	name: 'xp',
 	description: 'shows how much experience you have',
+	alias: [],
 	async execute(message) {
 
 		// Looks for the user's experience in the database
