@@ -58,7 +58,7 @@ const Experience = sequelize.define('xp', {
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
 client.once('ready', () => {
-	let dt = new Date(Date.now());
+	const dt = new Date(Date.now());
 
 	console.log(dt.toUTCString() + ' \nReady !');
 	// Loads the existing database or creates it if not existing
