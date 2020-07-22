@@ -34,14 +34,14 @@ module.exports = {
 						trigger: trigger,
 						response: response,
 					});
+					message.channel.send('Successfully created the reaction');
 				}
 				catch (error) {
 					console.log('Error creating the new custom reaction');
 				}
 			}
-
-		// If user requests to remove a reaction
 		}
+		// If user requests to remove a reaction
 		else if (args[0] == 'remove') {
 			// Extracts the first part of the arguments between quotes
 			const trigger = args.join(' ').split('"')[1];
