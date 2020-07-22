@@ -5,4 +5,4 @@ while ! ip route | grep -oP 'default via .+ dev'; do
 done
 sleep 5;
 cd ~/Bobbles/
-node index
+node index 2>&1 | tee bobbles.log

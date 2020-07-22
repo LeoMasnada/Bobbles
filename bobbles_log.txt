@@ -1,0 +1,6 @@
+Loaded clear
+Loaded off
+Loaded ping
+Loaded tag
+Loaded xp
+Ready!
