@@ -29,7 +29,6 @@ for (const file of commandFiles) {
 
 // Creates a 'table' with a user as key and an integer value associated to it
 const Experience = require('./commands/models/Experience');
-const { debug } = require('console');
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
