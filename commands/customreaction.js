@@ -30,13 +30,16 @@ module.exports = {
 			// If none were found, adds the requested to the database
 			if (!cr) {
 				try {
+					// Creates new entry
 					await CustomReaction.create({
 						trigger: trigger,
 						response: response,
 					});
+					// Feedback on success
 					message.channel.send('Successfully created the reaction');
 				}
 				catch (error) {
+					// Feedback on error
 					console.log('Error creating the new custom reaction');
 				}
 			}
