@@ -171,7 +171,7 @@ client.on('message', async message =>{
 			// Remove the message
 			message.delete();
 			// Warn the user
-			message.channel.send(`Do not use \'${word.word}' again.`).then(m=>m.delete({ timeout:3000 }));
+			message.channel.send('Do not use ' + word.word + ' again.').then(m=>m.delete({ timeout:3000 }));
 		}
 	});
 });
