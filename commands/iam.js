@@ -5,8 +5,8 @@ module.exports = {
 	description: 'gives or removes a role to the user based on a name',
 	alias: [],
 	async execute(message, args) {
-		if (!args[0]) return message.reply('Please precise the name of the role you want');
-		const ar = await AutoRole.findOne({ where: { name: args[0] } });
+		if (args.length <= 0) return message.reply('Please precise the name of the role you want');
+		const ar = await AutoRole.findOne({ where: { name: args.join(' ') } });
 
 		if (ar) {
 

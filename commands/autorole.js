@@ -14,7 +14,8 @@ module.exports = {
 				},
 			});
 			if (!ar) {
-				const name = args.join(' ').split('"')[1];
+				const name = args.join(' ').match(/"(.*?)"/ig).shift().replace(/"/g, '');
+				if (!name) return message.reply('Please provide a name for the autorole between " (double quotes)');
 				await AutoRoles.create({
 					role: message.mentions.roles.first().id,
 					name: name,
