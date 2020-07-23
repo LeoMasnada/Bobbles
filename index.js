@@ -46,6 +46,7 @@ for (const file of commandFiles) {
 /**	*****************************************/
 // Creates a 'table' with a user as key and an integer value associated to it
 const Experience = require('./commands/models/Experience');
+const BanWords = require('./commands/models/Banwords');
 
 
 /**	*****************************************/
@@ -150,6 +151,31 @@ client.on('message', async message => {
 		});
 
 });
+
+/**	*****************************************/
+//			On message (Ban words)			//
+/**	*****************************************/
+client.on('message', async message =>{
+	// Skip if sender was a bot
+	if (message.author.bot) return;
+	// Fetch all existing banwords
+	const ban = await BanWords.findAll();
+
+	// For each entry
+	ban.forEach(word =>{
+		// Creates a regular expression that isolates the current banword if it has no alpha-numerical symbol right before or after the word
+		const reg = new RegExp(`(?<![\\w\\d])${word.word}(?![\\w\\d])`, 'i');
+
+		// Tests if the word is included in the message
+		if (message.content.match(reg)) {
+			// Remove the message
+			message.delete();
+			// Warn the user
+			message.channel.send(`Do not use \'${word.word}' again.`).then(m=>m.delete({ timeout:3000 }));
+		}
+	});
+});
+
 
 /**	*****************************************/
 //					Login					//

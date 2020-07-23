@@ -1,4 +1,6 @@
+// Import the banword table model
 const BanWords = require('./models/Banwords');
+// Import discord.js library
 const Discord = require('discord.js');
 
 module.exports = {
@@ -6,28 +8,44 @@ module.exports = {
 	description: 'Manages the banwords',
 	alias: ['bw'],
 	async execute(message, args) {
+		// Load or create the table in the database
 		BanWords.sync();
 
+		// If the user requests to add a new banword
 		if (args[0] == 'add') {
-			const exp = args.join(' ').match(/"(.*?)"/ig).shift().replace(/"/g, '');
+			// Isolates the word to add from the double quotes
+			let exp = args.join(' ').match(/"(.*?)"/ig);
+			// If nothing has been isolated, notifies the user and aborts
+			if (!exp) return message.reply('Please precise an expression to ban between " (double quotes)');
+			// If something has been isolated, removes the quotes and saves
+			else exp = exp.shift().replace(/"/g, '');
+			// Try to fetch an existing banword with the requested one
 			const bw = await BanWords.findOne({ where:{ word: exp } });
+			// If none has been found
 			if (!bw) {
 				try{
+					// Attempts to create the new entry
 					BanWords.create({
 						word: exp,
 					});
+					// Notifies the user on success
 					message.channel.send('Successfully added the expression as a banword expression');
 				}
 				catch(error) {
+					// Notifies on error
 					console.log('Error while creating new banword ' + error);
 				}
 			}
+			// If the banword already existed
 			else {
+				// Notifies the user on failure
 				message.reply('This expression already exists as a banword expression');
 			}
 		}
 		else if (args[0] == 'remove') {
-			const exp = args.join(' ').match(/"(.*?)"/ig).shift().replace(/"/g, '');
+			let exp = args.join(' ').match(/"(.*?)"/ig);
+			if (!exp) return message.reply('Please precise an expression to ban between " (double quotes)');
+			else exp = exp.shift().replace(/"/g, '');
 			const bw = BanWords.findOne({ where: { word: exp } });
 			if (bw) {
 				try {
