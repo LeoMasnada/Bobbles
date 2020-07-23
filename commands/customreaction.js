@@ -51,20 +51,31 @@ module.exports = {
 
 			// If no trigger was specified, notifies user
 			if (!trigger) return message.reply('Please precise a trigger between " (double quotes)');
-			try{
-				// Removes the requested reaction
-				await CustomReaction.destroy({
-					where: {
-						trigger: trigger,
-					},
-				});
 
-				// Notifies user on success
-				message.channel.send('Successfully removed the reaction');
-			}
-			catch(error) {
+			const cr = await CustomReaction.findOne({
+				where: {
+					trigger: trigger,
+				},
+			});
+			if (cr) {
+				try{
+				// Removes the requested reaction
+					await CustomReaction.destroy({
+						where: {
+							trigger: trigger,
+						},
+					});
+
+					// Notifies user on success
+					message.channel.send('Successfully removed the reaction');
+				}
+				catch(error) {
 				// Logs if error
-				console.log('Error deleting the reaction ' + error);
+					console.log('Error deleting the reaction ' + error);
+				}
+			}
+			else{
+				message.channel.send('No reaction exists with this trigger');
 			}
 		}
 		// If user requests to see all reactions
