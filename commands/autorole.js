@@ -24,7 +24,7 @@ module.exports = {
 				const name = args.join(' ').match(/"(.*?)"/ig).shift().replace(/"/g, '');
 				// If no text was given between double quotes, informs the user and aborts
 				if (!name) return message.reply('Please provide a name for the autorole between " (double quotes)');
-				
+
 				// If the name was valid, creates the new entry
 				await AutoRoles.create({
 					role: message.mentions.roles.first().id,
