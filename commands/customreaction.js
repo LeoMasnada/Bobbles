@@ -14,9 +14,9 @@ module.exports = {
 		if (args[0] == 'add') {
 
 			// Extracts the first part of the arguments between quotes
-			const trigger = args.join(' ').split('"')[1];
+			const trigger = args.join(' ').match(/"(.*?)"/ig).shift().replace(/"/g, '');
 			// Extracts the second part of the arguments between quotes
-			const response = args.join(' ').split('"')[3];
+			const response = args.join(' ').match(/"(.*?)"/ig).pop().replace(/"/g, '');
 
 			// If not at least 2 parts were put between quotes, aborts and notifies the user
 			if (!trigger || !response) return message.reply('Please precise a trigger and a response between " (double quotes)');
