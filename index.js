@@ -1,3 +1,6 @@
+/**	*****************************************/
+//					Imports					//
+/**	*****************************************/
 // Import file reader library
 const fs = require('fs');
 
@@ -10,11 +13,18 @@ const {
 	token,
 } = require('./config/config.json');
 
+
+/**	*****************************************/
+//				Declarations				//
+/**	*****************************************/
 // create a new Discord client and gives it a collection of commands
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 
+/**	*****************************************/
+//				Load command files			//
+/**	*****************************************/
 // Loads all commands located in the commands folder looking for files with a js extention
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -31,8 +41,16 @@ for (const file of commandFiles) {
 	console.log('Loaded ' + command.name);
 }
 
+/**	*****************************************/
+//				Load models					//
+/**	*****************************************/
 // Creates a 'table' with a user as key and an integer value associated to it
 const Experience = require('./commands/models/Experience');
+
+
+/**	*****************************************/
+//					On Ready				//
+/**	*****************************************/
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
@@ -43,8 +61,9 @@ client.once('ready', () => {
 	Experience.sync();
 });
 
-// login to Discord with your app's token
-client.login(token);
+/**	*****************************************/
+//			On Message (commands)			//
+/**	*****************************************/
 
 // Whenever the bot catches a new message, this code runs
 client.on('message', async message => {
@@ -85,6 +104,10 @@ client.on('message', async message => {
 		message.reply('there was an error while loading that command');
 	}
 });
+
+/**	*****************************************/
+//			On message (experience)			//
+/**	*****************************************/
 
 client.on('message', async message => {
 	if (message.author.bot) return;
@@ -127,3 +150,10 @@ client.on('message', async message => {
 		});
 
 });
+
+/**	*****************************************/
+//					Login					//
+/**	*****************************************/
+
+// login to Discord with your app's token
+client.login(token);
