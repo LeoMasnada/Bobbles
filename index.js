@@ -60,6 +60,7 @@ client.once('ready', () => {
 	console.log(`${str} Bot is ready!`);
 	// Loads the existing database or creates it if not existing
 	Experience.sync();
+
 });
 
 /**	*****************************************/
