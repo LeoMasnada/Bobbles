@@ -14,7 +14,7 @@ module.exports = {
 			// Try to fetch an already existing entry with the same role
 			const ar = await AutoRoles.findOne({
 				where: {
-					role: message.mentions.roles.first().toString(),
+					role: message.mentions.roles.first().id,
 				},
 			});
 

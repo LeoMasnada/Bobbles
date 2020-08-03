@@ -177,6 +177,10 @@ client.on('message', async message =>{
 	});
 });
 
+/*
+client.on('ready', () => {
+});
+*/
 
 /**	*****************************************/
 //					Login					//
