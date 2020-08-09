@@ -113,6 +113,7 @@ client.on('message', async message => {
 
 client.on('message', async message => {
 	if (message.author.bot) return;
+
 	// Looks if a user already has been given an experience value
 	let user = await Experience.findOne({
 		where: {

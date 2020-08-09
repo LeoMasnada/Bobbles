@@ -4,15 +4,19 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database/connection');
 
 module.exports = sequelize.define('reactionRoles', {
+	ChannelID:{
+		type: Sequelize.STRING,
+		unique: false,
+	},
 	MessageID:{
 		type: Sequelize.STRING,
 		unique: true,
 	},
-	Reaction: {
+	ReactionID: {
 		type: Sequelize.STRING,
 		unique: true,
 	},
-	Role: {
+	RoleID: {
 		type: Sequelize.STRING,
 		unique: true,
 	},
