@@ -2,4 +2,3 @@
 /.vs/*
 /eslintc.json
 /config/*
-database.sqlite
