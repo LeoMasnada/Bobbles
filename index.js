@@ -189,3 +189,5 @@ client.on('ready', () => {
 
 // login to Discord with your app's token
 client.login(token);
+
+exports.data = client;

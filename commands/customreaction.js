@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'customreaction',
-	description: '',
+	description: 'Makes the bot react to specific words or expressions',
 	alias: ['cr'],
 	async execute(message, args) {
 		// Loads or creates the table of custom reaction table
