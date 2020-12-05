@@ -2,7 +2,7 @@ module.exports = {
 	name: 'accept',
 	description: 'allows a user in the server',
 	alias: ['a'],
-	async execute(message, args) {
+	async execute(message) {
 		if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send('Cannot execute that action');
 		const user = message.mentions.members.first();
 		const chan = await message.guild.channels.cache.find(ch => ch.name == user.displayName.toLowerCase().replace(/[^a-zA-Z ]/g, ''));
