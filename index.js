@@ -47,6 +47,7 @@ for (const file of commandFiles) {
 // Creates a 'table' with a user as key and an integer value associated to it
 const Experience = require('./commands/models/Experience');
 const BanWords = require('./commands/models/Banwords');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 
 /**	*****************************************/
@@ -60,7 +61,6 @@ client.once('ready', () => {
 	console.log(`${str} Bot is ready!`);
 	// Loads the existing database or creates it if not existing
 	Experience.sync();
-
 });
 
 /**	*****************************************/
@@ -178,10 +178,22 @@ client.on('message', async message =>{
 	});
 });
 
-/*
-client.on('ready', () => {
+/**	*****************************************/
+//		On member joining (Ban words)		//
+/**	*****************************************/
+client.on('guildMemberAdd', async member =>{
+	const guild = member.guild;
+	const justArrivedRole = await guild.roles.fetch('784866130292506636');
+	const category = await guild.channels.resolve('784866526280810537');
+	if (!justArrivedRole || !category) return console.log('error');
+	if (guild.id == '732302096808018051') {
+		await member.roles.add(justArrivedRole);
+		let channel = null;
+		channel = await guild.channels.create(member.displayName, { type: 'text', parent: category });
+		await channel.updateOverwrite(member.user, { VIEW_CHANNEL: true, SEND_MESSAGES: true, READ_MESSAGE_HISTORY: true });
+		channel.send('Hello, this message is here to make sure you are not a spammer.');
+	}
 });
-*/
 
 /**	*****************************************/
 //					Login					//

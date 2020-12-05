@@ -5,7 +5,7 @@ module.exports = {
 	async execute(message, args) {
 
 		// Checks validity of the command
-		if (!args[0]) return message.reply('Precisez le nombre et type de des a lancer "XdY"');
+		if (!args[0]) return message.reply('Please use the XdY format to roll dice');
 		// Initializes the number and type of dice from the command called
 		const x = parseInt(args[0].split('d')[0]);
 		const y = parseInt(args[0].split('d')[1]);
@@ -13,7 +13,7 @@ module.exports = {
 		// If x and y are valid numbers
 		if (x && y) {
 			// Sends confirmation message
-			message.channel.send(`Lancement de ${x}d${y}...`)
+			message.channel.send(`Rolling ${x}d${y}...`)
 			// Then logs all the dices thrown and each value resulting
 				.then(() =>{
 					// Init of storage values
@@ -33,12 +33,12 @@ module.exports = {
 					}
 					str += results[results.length - 1];
 					// Sends out result
-					message.channel.send('Resultat: ' + str + '\nTotal: ' + total);
+					message.channel.send('Results: ' + str + '\nTotal: ' + total);
 				});
 		}
 		// If x or y was invalid, abort
 		else{
-			message.reply('Precisez le nombre et type de des a lancer "XdY"');
+			message.reply('Please use the XdY format to roll dice');
 		}
 	},
 };
